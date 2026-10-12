@@ -1,59 +1,100 @@
-import { team, stats } from "@/lib/content";
-import { Button } from "./ui/Button";
+"use client";
+
+import { useState } from "react";
+import { stats, team } from "@/lib/content";
 import { Reveal } from "./ui/Reveal";
 
-/** Dark team section: full-bleed group photo, three bios aligned under each doctor, stats strip. */
+/**
+ * Doctors as an expanding strip, not a carousel and not a card list.
+ * One portrait is open; the others stay as narrow name columns.
+ */
 export function Team() {
+  const [active, setActive] = useState(0);
+
   return (
-    <section id="team" className="relative bg-ink text-text-light">
-      <div className="relative min-h-[100dvh] overflow-hidden">
-        <img
-          src="/img/team.jpg"
-          alt="Врачи Sculpt Clinic"
-          loading="lazy"
-          className="absolute inset-0 h-full w-full object-cover object-top opacity-80"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-ink/20 via-ink/40 to-ink" />
+    <section id="team" className="bg-ink text-text-light">
+      <div className="mx-auto max-w-[1600px] px-5 pb-16 pt-28 md:px-8 md:pb-20 md:pt-32">
+        <h2 className="display text-[56px] leading-[0.92] md:text-[84px]">Команда</h2>
 
-        <div className="relative mx-auto flex min-h-[100dvh] max-w-[1600px] flex-col justify-end px-5 pb-16 pt-[60vh] md:px-8 md:pb-24 md:pt-[55vh]">
-          <div className="grid gap-10 md:grid-cols-3 md:gap-8">
-            {team.map((m, i) => (
-              <Reveal key={m.name} delay={i * 0.08} className="max-w-[32ch]">
-                <p className="text-[17px] font-medium">{m.name}</p>
-                <p className="text-[13px] text-white/50">{m.role}</p>
-                <p className="mt-4 text-[14px] leading-relaxed text-white/75">{m.bio}</p>
-              </Reveal>
+        {/* desktop: strips share one row */}
+        <div className="mt-10 hidden h-[min(72vh,680px)] min-h-[460px] gap-2 md:flex">
+          {team.map((member, index) => {
+            const open = index === active;
+            return (
+              <button
+                key={member.name}
+                type="button"
+                onMouseEnter={() => setActive(index)}
+                onFocus={() => setActive(index)}
+                onClick={() => setActive(index)}
+                aria-pressed={open}
+                className="relative h-full overflow-hidden text-left transition-[flex-grow] duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] motion-reduce:transition-none"
+                style={{ flexGrow: open ? 8 : 1, flexBasis: 0 }}
+              >
+                <img
+                  src={member.photo}
+                  alt=""
+                  className="absolute inset-0 h-full w-full object-cover object-[center_18%]"
+                />
+                <span className="absolute inset-0 bg-gradient-to-t from-ink via-ink/10 to-ink/25" />
+                {open ? (
+                  <span className="absolute inset-x-0 bottom-0 p-6">
+                    <span className="block text-[20px] font-medium leading-snug">
+                      {member.name}
+                    </span>
+                    <span className="mt-1 block max-w-[28ch] text-[14px] leading-snug text-white/60">
+                      {member.role}
+                    </span>
+                  </span>
+                ) : (
+                  <span className="absolute inset-y-6 left-1/2 -translate-x-1/2 [writing-mode:vertical-rl] rotate-180 text-[14px] font-medium tracking-wide">
+                    {member.name.split(" ")[0]}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* phone: one portrait, names stacked under it */}
+        <div className="mt-8 md:hidden">
+          <div className="relative h-[58vh] min-h-[320px] overflow-hidden">
+            <img
+              src={team[active].photo}
+              alt={team[active].name}
+              className="absolute inset-0 h-full w-full object-cover object-[center_18%]"
+            />
+            <span className="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-transparent" />
+            <span className="absolute inset-x-0 bottom-0 p-5">
+              <span className="block text-[18px] font-medium">{team[active].name}</span>
+              <span className="mt-1 block text-[13px] text-white/60">{team[active].role}</span>
+            </span>
+          </div>
+          <ul className="mt-2">
+            {team.map((member, index) => (
+              <li key={member.name} className="border-b hairline-light">
+                <button
+                  type="button"
+                  onClick={() => setActive(index)}
+                  aria-pressed={index === active}
+                  className={`flex w-full items-center justify-between py-3.5 text-left text-[16px] ${
+                    index === active ? "text-white" : "text-white/45"
+                  }`}
+                >
+                  {member.name.split(" ")[0]}
+                </button>
+              </li>
             ))}
-          </div>
-
-          <div className="mt-24 grid items-end gap-10 md:mt-40 md:grid-cols-12">
-            <Reveal className="md:col-span-5">
-              <p className="text-[22px] font-medium leading-snug">
-                Команда специалистов,
-                <span className="block text-white/50">
-                  которые соединяют клинический опыт и технологии.
-                </span>
-              </p>
-            </Reveal>
-            <Reveal delay={0.1} className="md:col-span-7">
-              <h2 className="display max-w-[16ch] text-[44px] leading-[0.98] md:text-[64px] lg:text-[76px]">
-                Наша команда создаёт <em>исключительный</em> результат
-              </h2>
-              <Button variant="light" href="#contact" className="mt-10">
-                Познакомиться с врачами
-              </Button>
-            </Reveal>
-          </div>
+          </ul>
         </div>
       </div>
 
-      {/* stats */}
-      <div className="mx-auto max-w-[1600px] px-5 pb-28 pt-10 md:px-8 md:pb-40">
-        <div className="grid grid-cols-2 gap-x-6 gap-y-12 border-t hairline-light pt-12 md:grid-cols-5">
-          {stats.map((s, i) => (
-            <Reveal key={s.label} delay={i * 0.06}>
-              <p className="display text-[56px] leading-none md:text-[72px]">{s.value}</p>
-              <p className="mt-3 text-[13px] text-white/50">{s.label}</p>
+      <div className="mx-auto max-w-[1600px] px-5 pb-28 md:px-8 md:pb-36">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-12 border-t hairline-light pt-12 md:grid-cols-3">
+          {stats.map((item, index) => (
+            <Reveal key={item.label} delay={index * 0.06}>
+              <p className="display text-[56px] leading-none md:text-[72px]">{item.value}</p>
+              <p className="mt-3 text-[13px] text-white/50">{item.label}</p>
             </Reveal>
           ))}
         </div>

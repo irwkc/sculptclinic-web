@@ -130,11 +130,8 @@ export function Header() {
                   </div>
                 ))}
                 <div className="flex flex-col gap-2 text-white/60">
-                  <a className="link-line w-fit" href={clinic.instagram}>
-                    Instagram
-                  </a>
-                  <a className="link-line w-fit" href={clinic.telegram}>
-                    Telegram
+                  <a className="link-line w-fit" href={clinic.vk}>
+                    ВКонтакте
                   </a>
                   <a className="link-line w-fit" href={`mailto:${clinic.email}`}>
                     {clinic.email}

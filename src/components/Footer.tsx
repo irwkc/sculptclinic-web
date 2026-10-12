@@ -189,7 +189,10 @@ export function Footer() {
         </div>
 
         <div className="mt-20 flex flex-col gap-4 border-t hairline-light pt-6 text-[13px] text-white/50 md:flex-row md:items-center md:justify-between">
-          <p>© 2026 {clinic.name}</p>
+          <p>
+            © 2026 {clinic.nameRu}. Лицензия № {clinic.license}. Имеются противопоказания.
+            Необходима консультация специалиста.
+          </p>
           <ul className="flex flex-wrap gap-x-6 gap-y-2">
             {footerLinks.legal.map((l) => (
               <li key={l.label}>
@@ -201,13 +204,8 @@ export function Footer() {
           </ul>
           <ul className="flex gap-6">
             <li>
-              <a className="link-line" href={clinic.instagram}>
-                Instagram
-              </a>
-            </li>
-            <li>
-              <a className="link-line" href={clinic.telegram}>
-                Telegram
+              <a className="link-line" href={clinic.vk}>
+                ВКонтакте
               </a>
             </li>
           </ul>

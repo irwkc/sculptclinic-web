@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Onest, Playfair_Display } from "next/font/google";
+import { PageTransition } from "@/components/PageTransition";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import "./globals.css";
 
@@ -18,9 +19,9 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Sculpt Clinic | Эстетическая стоматология премиум-класса",
+  title: "Скульпт Клиник | Стоматология в Рязани",
   description:
-    "Sculpt Clinic: виниры, имплантация, цифровая стоматология и эстетика лица. Проектируем улыбки, которые выглядят естественно и служат десятилетиями.",
+    "Скульпт Клиник, Рязань, Касимовское шоссе, 8, корп. 2. Клиника современной стоматологии. Ежедневно с 09:00 до 21:00.",
   openGraph: {
     title: "Sculpt Clinic",
     description: "Эстетическая стоматология премиум-класса",
@@ -35,7 +36,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${onest.variable} ${playfair.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col overflow-x-clip">
-        <SmoothScroll>{children}</SmoothScroll>
+        <SmoothScroll>
+          {children}
+          <PageTransition />
+        </SmoothScroll>
       </body>
     </html>
   );

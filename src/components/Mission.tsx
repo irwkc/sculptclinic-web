@@ -10,21 +10,20 @@ export function Mission() {
             Наша <em>цель</em>
           </h2>
           <p className="mt-8 max-w-[34ch] text-[17px] leading-relaxed text-text-dark/70">
-            Десятилетия совместного опыта и постоянное обучение. Лечение, в основе
-            которого знание, точность и внимание к деталям.
+            Скульпт Клиник в Рязани. Сохраняем свои зубы даже в сложных случаях.
+            План лечения и стоимость называем до начала работы.
           </p>
         </Reveal>
 
         <div className="md:col-span-7 md:pt-24">
           <Reveal delay={0.1} className="flex items-start gap-6 md:gap-12">
             <span className="display shrink-0 text-[120px] leading-[0.8] text-text-dark/15 md:text-[220px]">
-              12
+              7
             </span>
             <div className="pt-2 md:pt-6">
-              <p className="text-[13px] text-text-dark/55">лет проектируем улыбки</p>
+              <p className="text-[13px] text-text-dark/55">врачей в клинике</p>
               <p className="display mt-4 max-w-[26ch] text-[26px] leading-[1.12] md:text-[40px]">
-                Сделать стоматологию мирового уровня с индивидуальным подходом и
-                сервисом, в котором каждый пациент чувствует себя главным.
+                Качество на уровне ведущих клиник города.
               </p>
               <Button href="#team" className="mt-10">
                 О клинике
