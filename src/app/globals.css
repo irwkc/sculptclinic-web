@@ -57,11 +57,6 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Pinned stages track the live viewport so Safari chrome stays over the page. */
-.h-app {
-  height: 100dvh;
-}
-
 ::selection {
   background: var(--ink);
   color: var(--text-light);
