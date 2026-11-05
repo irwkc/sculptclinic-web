@@ -99,7 +99,7 @@ export function Services() {
       }
     >
       <h2 className="sr-only">Направления</h2>
-      <div className="sticky top-0 flex h-[100dvh] flex-col md:grid md:grid-cols-12">
+      <div className="sticky top-0 flex h-app flex-col md:grid md:grid-cols-12">
         <div className="relative h-[40vh] min-h-[240px] md:col-span-7 md:h-full">
           <div className="absolute inset-0 overflow-hidden">
             {services.map((service, index) => (

@@ -6,10 +6,20 @@ import { useLenis } from "lenis/react";
 
 const EASE = [0.76, 0, 0.24, 1] as const;
 
+function jumpTo(target: HTMLElement, lenis: ReturnType<typeof useLenis> | null) {
+  if (lenis) {
+    lenis.scrollTo(target, { immediate: true, force: true });
+    return;
+  }
+  const top = window.scrollY + target.getBoundingClientRect().top;
+  window.scrollTo({ top, behavior: "auto" });
+}
+
 /**
  * Page-turn between sections. A hash link covers the screen, the view jumps
  * while it is covered, then the panel lifts away.
  * z-index: header 50, this curtain 80.
+ * On phone there is no Lenis - jump with native scroll.
  */
 export function PageTransition() {
   const reduce = useReducedMotion();
@@ -34,7 +44,7 @@ export function PageTransition() {
       if (!next) return;
       event.preventDefault();
       if (reduce) {
-        lenisRef.current?.scrollTo(next, { immediate: true, force: true });
+        jumpTo(next, lenisRef.current);
         return;
       }
       targetRef.current = next;
@@ -57,7 +67,7 @@ export function PageTransition() {
           onAnimationComplete={() => {
             const target = targetRef.current;
             if (!target) return;
-            lenisRef.current?.scrollTo(target, { immediate: true, force: true });
+            jumpTo(target, lenisRef.current);
             targetRef.current = null;
             setOpen(false);
           }}

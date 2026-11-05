@@ -59,7 +59,7 @@ export function Hero() {
 
   return (
     <section id="top" ref={ref} className="relative h-[240vh] bg-stone">
-      <div className="sticky top-0 h-[100dvh] overflow-hidden">
+      <div className="sticky top-0 h-app overflow-hidden">
         {/* photo panel */}
         <motion.div
           style={{ clipPath: reduce ? "inset(0 0 0 0%)" : panelClip }}
@@ -111,7 +111,7 @@ export function Hero() {
         {/* bottom row */}
         <motion.div
           style={{ opacity: sideOpacity }}
-          className="absolute inset-x-0 bottom-0 flex items-end justify-between px-5 pb-6 md:px-8 md:pb-8"
+          className="absolute inset-x-0 bottom-0 flex items-end justify-between px-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] md:px-8 md:pb-8"
         >
           <div className="hidden text-[13px] leading-snug md:block">
             <p className="text-text-dark/55">Мы находимся:</p>

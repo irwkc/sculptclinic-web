@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Onest, Playfair_Display } from "next/font/google";
 import { PageTransition } from "@/components/PageTransition";
 import { SmoothScroll } from "@/components/SmoothScroll";
@@ -27,6 +27,13 @@ export const metadata: Metadata = {
     description: "Эстетическая стоматология премиум-класса",
     images: ["/img/hero.jpg"],
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#ecebe8",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

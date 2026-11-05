@@ -24,8 +24,8 @@ export function Header() {
   return (
     <>
       {/* mix-blend-difference: header stays legible over the light/dark split without JS */}
-      <header className="fixed inset-x-0 top-0 z-50 h-[72px] text-white mix-blend-difference pointer-events-none">
-        <div className="mx-auto flex h-full max-w-[1600px] items-center justify-between px-5 md:px-8">
+      <header className="fixed inset-x-0 top-0 z-50 pt-[env(safe-area-inset-top)] text-white mix-blend-difference pointer-events-none">
+        <div className="mx-auto flex h-[72px] max-w-[1600px] items-center justify-between px-5 md:px-8">
           <div className="pointer-events-auto flex items-center gap-10">
             <Logo />
             <button
@@ -81,7 +81,7 @@ export function Header() {
             transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
             className="fixed inset-0 z-40 overflow-y-auto bg-ink text-text-light"
           >
-            <div className="mx-auto flex min-h-full max-w-[1600px] flex-col justify-between px-5 pb-10 pt-28 md:px-8 md:pt-36">
+            <div className="mx-auto flex min-h-full max-w-[1600px] flex-col justify-between px-5 pb-[max(2.5rem,env(safe-area-inset-bottom))] pt-[calc(env(safe-area-inset-top)+5.5rem)] md:px-8 md:pt-36">
               <nav>
                 <ul className="flex flex-col">
                   {nav.map((item, i) => (

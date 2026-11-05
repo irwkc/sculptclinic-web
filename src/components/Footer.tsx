@@ -35,7 +35,7 @@ export function Footer() {
 
   return (
     <footer id="contact" className="bg-ink text-text-light">
-      <div className="mx-auto max-w-[1600px] px-5 pb-10 pt-24 md:px-8 md:pt-32">
+      <div className="mx-auto max-w-[1600px] px-5 pb-[max(2.5rem,env(safe-area-inset-bottom))] pt-24 md:px-8 md:pt-32">
         <div className="flex justify-center">
           <Logo className="scale-125" />
         </div>
