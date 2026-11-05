@@ -5,11 +5,6 @@ import { ReactLenis } from "lenis/react";
 
 const PHONE = "(max-width: 767px)";
 
-/** Lock the first layout height so Safari toolbar show/hide does not resize pinned stages. */
-function lockAppVh() {
-  document.documentElement.style.setProperty("--app-vh", `${window.innerHeight}px`);
-}
-
 /**
  * Desktop: Lenis smooth wheel.
  * Phone: native scroll (Lenis fights the finger and blocks Safari from hiding its chrome).
@@ -25,19 +20,7 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     sync();
     setReady(true);
     mq.addEventListener("change", sync);
-
-    lockAppVh();
-    const onOrient = () => {
-      window.setTimeout(lockAppVh, 350);
-    };
-    window.addEventListener("orientationchange", onOrient);
-    window.addEventListener("pageshow", lockAppVh);
-
-    return () => {
-      mq.removeEventListener("change", sync);
-      window.removeEventListener("orientationchange", onOrient);
-      window.removeEventListener("pageshow", lockAppVh);
-    };
+    return () => mq.removeEventListener("change", sync);
   }, []);
 
   if (!ready || phone) {

@@ -33,7 +33,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#ecebe8",
+  // No solid themeColor: Safari keeps its frosted/translucent chrome over the page.
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

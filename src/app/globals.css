@@ -46,8 +46,6 @@
 html {
   scroll-behavior: auto;
   background: var(--stone);
-  /* Filled by SmoothScroll; fallback keeps pins stable before JS. */
-  --app-vh: 100svh;
 }
 
 body {
@@ -57,18 +55,11 @@ body {
   font-feature-settings: "ss01", "cv11";
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  overscroll-behavior-y: none;
 }
 
-/* Pinned stages: lock height on phone so Safari chrome does not resize them. */
+/* Pinned stages track the live viewport so Safari chrome stays over the page. */
 .h-app {
   height: 100dvh;
-}
-
-@media (max-width: 767px) {
-  .h-app {
-    height: var(--app-vh, 100svh);
-  }
 }
 
 ::selection {
