@@ -7,20 +7,21 @@ import { motion, useReducedMotion } from "motion/react";
  * Left = stone, right = ink. Logo + wire sit on the seam with mix-blend-difference.
  */
 const WIRE =
-  "M 100 0 C 88 7, 82 11, 76 18 C 68 28, 64 34, 58 42 C 51 52, 47 58, 40 66 C 32 76, 26 82, 16 90 C 9 95, 4 98, 0 100";
+  "M 100 0 C 62 4, 98 12, 74 20 C 48 28, 92 36, 58 44 C 28 52, 86 58, 52 66 C 22 74, 70 82, 38 88 C 16 93, 24 97, 0 100";
 
+/** Fewer brackets, spaced along the wilder arc. */
 const BRACKETS: { x: number; y: number; rot: number }[] = [
-  { x: 86, y: 8, rot: -38 },
-  { x: 74, y: 20, rot: -42 },
-  { x: 64, y: 34, rot: -46 },
-  { x: 53, y: 48, rot: -48 },
-  { x: 43, y: 62, rot: -50 },
-  { x: 31, y: 76, rot: -52 },
-  { x: 18, y: 88, rot: -54 },
-  { x: 8, y: 96, rot: -56 },
+  { x: 82, y: 14, rot: -36 },
+  { x: 66, y: 40, rot: -48 },
+  { x: 48, y: 68, rot: -42 },
+  { x: 26, y: 90, rot: -58 },
 ];
 
 const EASE = [0.76, 0, 0.24, 1] as const;
+
+/** Same curve in objectBoundingBox space (0..1) for the dark half clip. */
+const DARK_CLIP =
+  "M 1 0 C 0.62 0.04, 0.98 0.12, 0.74 0.2 C 0.48 0.28, 0.92 0.36, 0.58 0.44 C 0.28 0.52, 0.86 0.58, 0.52 0.66 C 0.22 0.74, 0.7 0.82, 0.38 0.88 C 0.16 0.93, 0.24 0.97, 0 1 L 1 1 Z";
 
 export function Hero() {
   const reduce = useReducedMotion();
@@ -34,7 +35,7 @@ export function Hero() {
       <svg width={0} height={0} className="absolute" aria-hidden>
         <defs>
           <clipPath id="mobile-hero-dark" clipPathUnits="objectBoundingBox">
-            <path d="M 1 0 C 0.88 0.07, 0.82 0.11, 0.76 0.18 C 0.68 0.28, 0.64 0.34, 0.58 0.42 C 0.51 0.52, 0.47 0.58, 0.4 0.66 C 0.32 0.76, 0.26 0.82, 0.16 0.9 C 0.09 0.95, 0.04 0.98, 0 1 L 1 1 Z" />
+            <path d={DARK_CLIP} />
           </clipPath>
         </defs>
       </svg>
@@ -59,13 +60,13 @@ export function Hero() {
             d={WIRE}
             fill="none"
             stroke="currentColor"
-            strokeWidth={0.4}
+            strokeWidth={0.45}
             strokeLinecap="round"
             vectorEffect="non-scaling-stroke"
             pathLength={1}
             initial={reduce ? false : { pathLength: 0, opacity: 0 }}
             animate={{ pathLength: 1, opacity: 1 }}
-            transition={{ duration: 1.2, ease: EASE, delay: 0.12 }}
+            transition={{ duration: 1.25, ease: EASE, delay: 0.12 }}
           />
 
           {BRACKETS.map((b, i) => (
@@ -77,10 +78,9 @@ export function Hero() {
               transition={{
                 duration: 0.4,
                 ease: EASE,
-                delay: 0.4 + i * 0.055,
+                delay: 0.45 + i * 0.08,
               }}
             >
-              {/* Ortho bracket wing on the archwire */}
               <path
                 fill="currentColor"
                 d="M -1.2 -1.45 h 2.4 v 0.7 h -0.55 v 1.5 h 0.55 v 0.7 h -2.4 v -0.7 h 0.55 v -1.5 h -0.55 z"
@@ -93,9 +93,9 @@ export function Hero() {
 
       <div className="absolute inset-0 z-20 grid place-items-center mix-blend-difference">
         <motion.img
-          src="/logo-mark.png"
+          src="/logo.svg"
           alt="Sculpt Clinic"
-          className="size-[22vw] max-h-28 max-w-28 min-h-20 min-w-20"
+          className="size-[24vw] min-h-20 min-w-20 max-h-32 max-w-32 brightness-0 invert"
           initial={reduce ? false : { opacity: 0, scale: 0.86 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.9, ease: EASE, delay: 0.55 }}
