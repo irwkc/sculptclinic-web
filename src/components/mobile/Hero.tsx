@@ -1,12 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 
 /**
  * Negative / positive mobile hero.
  * Ink curtain over stone. Type + mark share one mix-blend-difference layer (like the header).
- * Viewport height is frozen on mount so Safari chrome cannot resize the sticky stage mid-scroll.
+ *
+ * Sticky uses 100lvh (large viewport): tall enough to paint under Safari’s frosted chrome,
+ * and stable so toolbar show/hide does not resize the stage mid-scroll.
  */
 
 const EASE = [0.76, 0, 0.24, 1] as const;
@@ -14,41 +16,22 @@ const EASE = [0.76, 0, 0.24, 1] as const;
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
-  const [stageH, setStageH] = useState(0);
-
-  useEffect(() => {
-    const freeze = () => {
-      // Freeze once — do not follow toolbar show/hide (that jerks sticky + seam).
-      setStageH((prev) => prev || window.innerHeight);
-    };
-    freeze();
-  }, []);
-
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
   });
 
-  // GPU curtain: scale from top instead of rewriting clip-path every frame.
   const curtain = useTransform(scrollYProgress, [0, 0.75], [0.52, 1]);
   const seamTop = useTransform(scrollYProgress, [0, 0.75], ["52%", "100%"]);
-
-  const stageStyle = stageH
-    ? { height: stageH }
-    : { height: "100svh" as const };
-  const sectionStyle = stageH
-    ? { height: Math.round(stageH * 1.6) }
-    : { height: "160svh" as const };
 
   return (
     <section
       id="top"
       ref={ref}
-      className="relative bg-stone"
-      style={sectionStyle}
+      className="relative h-[160lvh] bg-stone"
       aria-label="Скульпт Клиник"
     >
-      <div className="sticky top-0 overflow-hidden" style={stageStyle}>
+      <div className="sticky top-0 h-[100lvh] overflow-hidden">
         <div className="absolute inset-0 bg-stone" />
         <motion.div
           className="absolute inset-x-0 top-0 h-full origin-top bg-ink will-change-transform"
