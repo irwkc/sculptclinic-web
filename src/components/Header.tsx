@@ -49,7 +49,7 @@ export function Header() {
             </a>
             <a
               href="#contact"
-              className="btn h-11 bg-white px-5 text-[14px] text-black md:h-12 md:px-6 md:text-[15px]"
+              className="btn hidden h-12 bg-white px-6 text-[15px] text-black md:inline-flex"
             >
               <span>Записаться</span>
               <span className="btn-icon bg-black/8">

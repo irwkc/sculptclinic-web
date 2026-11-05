@@ -8,7 +8,6 @@ import { Logo } from "./Logo";
 type Status = "idle" | "sending" | "sent" | "error";
 
 export function Footer() {
-  const [location, setLocation] = useState(locations[0].id);
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<{ name?: string; phone?: string }>({});
 
@@ -53,33 +52,7 @@ export function Footer() {
           </div>
 
           <form onSubmit={onSubmit} noValidate className="md:col-span-5 md:col-start-7">
-            <fieldset>
-              <legend className="text-[13px] text-white/50">Выберите клинику</legend>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {locations.map((l) => (
-                  <label
-                    key={l.id}
-                    className={`cursor-pointer rounded-full border px-4 py-2 text-[14px] transition-colors ${
-                      location === l.id
-                        ? "border-white bg-white text-ink"
-                        : "border-white/25 hover:border-white/60"
-                    }`}
-                  >
-                    <input
-                      type="radio"
-                      name="location"
-                      value={l.id}
-                      checked={location === l.id}
-                      onChange={() => setLocation(l.id)}
-                      className="sr-only"
-                    />
-                    {l.name}
-                  </label>
-                ))}
-              </div>
-            </fieldset>
-
-            <div className="mt-8 grid gap-6">
+            <div className="grid gap-6">
               <div className="grid gap-1">
                 <label htmlFor="name" className="text-[13px] text-white/50">
                   Имя
