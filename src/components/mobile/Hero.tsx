@@ -1,80 +1,26 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import { motion, useReducedMotion } from "motion/react";
 
 /**
- * Smile garland hero.
- * Wavy braces arc splits stone / ink. Brackets hold tooth ornaments on threads.
+ * Studio hero: the mark on a stage.
+ * Soft key light drifts left → right; specular and floor shadow follow.
  */
 
 const EASE = [0.76, 0, 0.24, 1] as const;
+const CYCLE = 14;
 
-/** viewBox 390×844 — phone portrait, so ornaments are not stretched. */
-const VB = { w: 390, h: 844 };
-
-const WIRE =
-  "M 390 0 C 242 34, 382 95, 288 168 C 186 248, 358 318, 224 402 C 108 478, 330 552, 188 648 C 92 714, 128 780, 0 844";
-
-const DARK_CLIP =
-  "M 1 0 C 0.62 0.04, 0.979 0.113, 0.738 0.199 C 0.477 0.294, 0.918 0.377, 0.574 0.476 C 0.277 0.566, 0.846 0.654, 0.482 0.768 C 0.236 0.846, 0.328 0.924, 0 1 L 1 1 Z";
-
-type Ornament = {
-  x: number;
-  y: number;
-  rot: number;
-  thread: number;
-  scale: number;
-  kind: "incisor" | "canine" | "molar";
-  sway: number;
-  duration: number;
+const logoMask: CSSProperties = {
+  WebkitMaskImage: "url(/logo.svg)",
+  maskImage: "url(/logo.svg)",
+  WebkitMaskSize: "contain",
+  maskSize: "contain",
+  WebkitMaskRepeat: "no-repeat",
+  maskRepeat: "no-repeat",
+  WebkitMaskPosition: "center",
+  maskPosition: "center",
 };
-
-const ORNAMENTS: Ornament[] = [
-  { x: 318, y: 118, rot: -34, thread: 52, scale: 0.92, kind: "incisor", sway: 7, duration: 3.4 },
-  { x: 262, y: 268, rot: -46, thread: 64, scale: 1.05, kind: "molar", sway: 9, duration: 4.1 },
-  { x: 214, y: 430, rot: -40, thread: 48, scale: 0.88, kind: "canine", sway: 6, duration: 3.7 },
-  { x: 156, y: 590, rot: -50, thread: 72, scale: 1.12, kind: "molar", sway: 10, duration: 4.6 },
-  { x: 92, y: 730, rot: -56, thread: 44, scale: 0.8, kind: "incisor", sway: 8, duration: 3.2 },
-];
-
-function Bracket() {
-  return (
-    <g>
-      <path
-        fill="currentColor"
-        d="M -9.5 -7.5 h 19 v 4.2 h -2.2 v 7.2 h 2.2 v 4.2 h -19 v -4.2 h 2.2 v -7.2 h -2.2 z"
-      />
-      {/* Slot through the lock */}
-      <rect x={-8.8} y={-1.8} width={17.6} height={3.6} rx={0.8} fill="currentColor" />
-      <rect x={-5.5} y={-5.2} width={11} height={10.4} rx={1} fill="none" stroke="currentColor" strokeWidth={1.2} opacity={0.55} />
-    </g>
-  );
-}
-
-function Tooth({ kind }: { kind: Ornament["kind"] }) {
-  if (kind === "molar") {
-    return (
-      <path
-        fill="currentColor"
-        d="M -9 -2 C -9 -10, -5 -14, 0 -14 C 5 -14, 9 -10, 9 -2 L 9 4 C 9 7, 7 9, 5 9 L 4 18 C 3.5 21, 1.5 22, 0 22 C -1.5 22, -3.5 21, -4 18 L -5 9 C -7 9, -9 7, -9 4 Z"
-      />
-    );
-  }
-  if (kind === "canine") {
-    return (
-      <path
-        fill="currentColor"
-        d="M -6.5 0 C -6.5 -9, -3 -14, 0 -16 C 3 -14, 6.5 -9, 6.5 0 L 6.5 5 C 6.5 7.5, 5 9, 3.2 9 L 2.2 20 C 1.8 22.5, 0.6 23.5, 0 23.5 C -0.6 23.5, -1.8 22.5, -2.2 20 L -3.2 9 C -5 9, -6.5 7.5, -6.5 5 Z"
-      />
-    );
-  }
-  return (
-    <path
-      fill="currentColor"
-      d="M -5.5 -1 C -5.5 -9, -2.5 -13, 0 -13 C 2.5 -13, 5.5 -9, 5.5 -1 L 5.5 5 C 5.5 7, 4.2 8.5, 2.8 8.5 L 2 19 C 1.6 21.5, 0.5 22.5, 0 22.5 C -0.5 22.5, -1.6 21.5, -2 19 L -2.8 8.5 C -4.2 8.5, -5.5 7, -5.5 5 Z"
-    />
-  );
-}
 
 export function Hero() {
   const reduce = useReducedMotion();
@@ -82,105 +28,212 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative min-h-[100dvh] overflow-hidden bg-stone"
+      className="relative min-h-[100dvh] overflow-hidden bg-[#0e0f13]"
       aria-label="Скульпт Клиник"
     >
-      <svg width={0} height={0} className="absolute" aria-hidden>
-        <defs>
-          <clipPath id="mobile-hero-dark" clipPathUnits="objectBoundingBox">
-            <path d={DARK_CLIP} />
-          </clipPath>
-        </defs>
-      </svg>
-
-      <motion.div
+      <div
         aria-hidden
-        className="absolute inset-0 bg-ink"
-        style={{ clipPath: "url(#mobile-hero-dark)" }}
-        initial={reduce ? false : { opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.9, ease: EASE }}
+        className="absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(120% 70% at 50% 0%, #1a1c24 0%, #0e0f13 55%, #090a0d 100%)",
+        }}
       />
 
-      <div className="pointer-events-none absolute inset-0 z-10 mix-blend-difference">
-        <svg
-          className="h-full w-full text-white"
-          viewBox={`0 0 ${VB.w} ${VB.h}`}
-          preserveAspectRatio="xMidYMid slice"
+      {/* Floor */}
+      <div
+        aria-hidden
+        className="absolute inset-x-[-20%] bottom-0 h-[42%] origin-bottom"
+        style={{
+          background:
+            "linear-gradient(180deg, transparent 0%, rgba(18,19,24,0.2) 18%, #12131a 100%)",
+          transform: "perspective(700px) rotateX(58deg)",
+          transformOrigin: "center top",
+        }}
+      />
+      <div
+        aria-hidden
+        className="absolute inset-x-0 bottom-0 h-[28%]"
+        style={{
+          background: "linear-gradient(180deg, transparent, rgba(0,0,0,0.55) 70%)",
+        }}
+      />
+
+      {/* Cool fill from the right */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -right-[20%] top-[8%] h-[70%] w-[70%] rounded-full opacity-40"
+        style={{
+          background:
+            "radial-gradient(circle at 30% 40%, rgba(180,190,210,0.14), transparent 62%)",
+        }}
+      />
+
+      {reduce ? (
+        <div
           aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 60% 55% at 42% 22%, rgba(255,248,235,0.28), transparent 65%)",
+          }}
+        />
+      ) : (
+        <motion.div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          animate={{ x: ["-28%", "28%", "-28%"] }}
+          transition={{ duration: CYCLE, repeat: Infinity, ease: "easeInOut" }}
         >
-          <motion.path
-            d={WIRE}
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={1.6}
-            strokeLinecap="round"
-            pathLength={1}
-            initial={reduce ? false : { pathLength: 0, opacity: 0 }}
-            animate={{ pathLength: 1, opacity: 1 }}
-            transition={{ duration: 1.3, ease: EASE, delay: 0.1 }}
+          <div
+            className="absolute left-1/2 top-[-8%] h-[85%] w-[85%] -translate-x-1/2"
+            style={{
+              background:
+                "radial-gradient(ellipse 55% 70% at 50% 18%, rgba(255,248,235,0.34) 0%, rgba(255,236,210,0.14) 28%, rgba(255,220,180,0.05) 48%, transparent 70%)",
+            }}
+          />
+          <div
+            className="absolute left-1/2 top-[6%] h-[42%] w-[38%] -translate-x-1/2"
+            style={{
+              background:
+                "radial-gradient(ellipse at 50% 30%, rgba(255,252,245,0.55) 0%, rgba(255,230,190,0.18) 35%, transparent 68%)",
+              filter: "blur(2px)",
+            }}
+          />
+          <div
+            className="absolute left-1/2 top-[-5%] h-[78%] w-[46%] -translate-x-1/2"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(255,245,230,0.2) 0%, rgba(255,230,200,0.08) 42%, transparent 78%)",
+              clipPath: "polygon(32% 0%, 68% 0%, 92% 100%, 8% 100%)",
+              filter: "blur(18px)",
+              opacity: 0.85,
+            }}
+          />
+          <div
+            className="absolute bottom-[14%] left-1/2 h-[12%] w-[58%] -translate-x-1/2 rounded-[100%]"
+            style={{
+              background:
+                "radial-gradient(ellipse at center, rgba(255,236,210,0.22) 0%, rgba(255,220,180,0.06) 45%, transparent 72%)",
+              filter: "blur(6px)",
+            }}
+          />
+        </motion.div>
+      )}
+
+      <div className="relative z-10 flex min-h-[100dvh] flex-col items-center justify-center px-8 pt-[env(safe-area-inset-top)] pb-[max(2rem,env(safe-area-inset-bottom))]">
+        <div className="relative flex w-full max-w-[280px] flex-col items-center">
+          <motion.div
+            aria-hidden
+            className="absolute -bottom-6 left-1/2 h-10 w-[78%] -translate-x-1/2 rounded-[100%]"
+            style={{
+              background:
+                "radial-gradient(ellipse at center, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.28) 42%, transparent 72%)",
+              filter: "blur(8px)",
+            }}
+            animate={
+              reduce
+                ? undefined
+                : {
+                    x: ["18%", "-18%", "18%"],
+                    scaleX: [1.05, 0.92, 1.05],
+                    opacity: [0.55, 0.75, 0.55],
+                  }
+            }
+            transition={{ duration: CYCLE, repeat: Infinity, ease: "easeInOut" }}
           />
 
-          {ORNAMENTS.map((item, i) => (
-            <motion.g
-              key={`${item.x}-${item.y}`}
-              transform={`translate(${item.x} ${item.y}) rotate(${item.rot})`}
-              initial={reduce ? false : { opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.45, ease: EASE, delay: 0.35 + i * 0.08 }}
-            >
-              <Bracket />
+          <motion.div
+            aria-hidden
+            className="absolute top-[18%] left-1/2 h-[70%] w-[70%] -translate-x-1/2"
+            style={{
+              background:
+                "radial-gradient(ellipse at 50% 40%, rgba(0,0,0,0.45), transparent 65%)",
+              filter: "blur(22px)",
+            }}
+            animate={
+              reduce
+                ? undefined
+                : { x: ["22%", "-22%", "22%"], opacity: [0.35, 0.55, 0.35] }
+            }
+            transition={{ duration: CYCLE, repeat: Infinity, ease: "easeInOut" }}
+          />
 
-              <motion.g
-                style={{ transformOrigin: "0px 8px" }}
-                animate={
-                  reduce
-                    ? undefined
-                    : { rotate: [-item.sway, item.sway, -item.sway] }
-                }
-                transition={{
-                  duration: item.duration,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              >
-                <line
-                  x1={0}
-                  y1={8}
-                  x2={0}
-                  y2={8 + item.thread}
-                  stroke="currentColor"
-                  strokeWidth={1.15}
-                  strokeLinecap="round"
-                  opacity={0.8}
-                />
-                <motion.g
-                  transform={`translate(0 ${8 + item.thread}) scale(${item.scale})`}
-                  initial={reduce ? false : { opacity: 0, y: -16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.65,
-                    ease: EASE,
-                    delay: 0.65 + i * 0.1,
-                  }}
+          <motion.div
+            className="relative aspect-square w-[58vw] max-w-[240px]"
+            initial={reduce ? false : { opacity: 0, y: 18, scale: 0.94 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 1.1, ease: EASE }}
+          >
+            <img
+              src="/logo.svg"
+              alt=""
+              aria-hidden
+              className="absolute inset-0 size-full"
+              style={{
+                transform: "translate(3px, 5px)",
+                filter: "brightness(0) blur(0.4px)",
+                opacity: 0.4,
+              }}
+            />
+            <img
+              src="/logo.svg"
+              alt=""
+              aria-hidden
+              className="absolute inset-0 size-full"
+              style={{
+                transform: "translate(6px, 10px)",
+                filter: "brightness(0) blur(1.5px)",
+                opacity: 0.22,
+              }}
+            />
+
+            <img
+              src="/logo.svg"
+              alt="Sculpt Clinic"
+              className="relative size-full"
+              style={{
+                filter:
+                  "brightness(0) invert(1) drop-shadow(0 0 28px rgba(255,236,210,0.2))",
+              }}
+            />
+
+            {!reduce && (
+              <>
+                <motion.div
+                  aria-hidden
+                  className="absolute inset-0"
+                  style={logoMask}
+                  animate={{ x: ["-55%", "55%", "-55%"] }}
+                  transition={{ duration: CYCLE, repeat: Infinity, ease: "easeInOut" }}
                 >
-                  <Tooth kind={item.kind} />
-                </motion.g>
-              </motion.g>
-            </motion.g>
-          ))}
-        </svg>
-      </div>
+                  <div
+                    className="absolute inset-[-12%] rotate-[18deg]"
+                    style={{
+                      background:
+                        "linear-gradient(90deg, transparent 34%, rgba(255,252,245,0.16) 44%, rgba(255,255,255,0.72) 50%, rgba(255,230,190,0.24) 56%, transparent 66%)",
+                      mixBlendMode: "screen",
+                    }}
+                  />
+                </motion.div>
 
-      <div className="absolute inset-0 z-20 grid place-items-center mix-blend-difference">
-        <motion.img
-          src="/logo.svg"
-          alt="Sculpt Clinic"
-          className="size-[24vw] min-h-20 min-w-20 max-h-32 max-w-32 brightness-0 invert"
-          initial={reduce ? false : { opacity: 0, scale: 0.86 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.9, ease: EASE, delay: 0.55 }}
-        />
+                <motion.div
+                  aria-hidden
+                  className="absolute inset-0"
+                  style={{ ...logoMask, mixBlendMode: "screen" }}
+                  animate={{
+                    background: [
+                      "radial-gradient(circle at 22% 28%, rgba(255,248,235,0.52), transparent 36%)",
+                      "radial-gradient(circle at 78% 28%, rgba(255,248,235,0.52), transparent 36%)",
+                      "radial-gradient(circle at 22% 28%, rgba(255,248,235,0.52), transparent 36%)",
+                    ],
+                  }}
+                  transition={{ duration: CYCLE, repeat: Infinity, ease: "easeInOut" }}
+                />
+              </>
+            )}
+          </motion.div>
+        </div>
       </div>
 
       <h1 className="sr-only">Скульптура вашей улыбки</h1>
