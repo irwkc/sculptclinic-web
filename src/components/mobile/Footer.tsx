@@ -36,30 +36,6 @@ export function Footer() {
         </div>
 
         <div className="mt-16 grid gap-10 border-t hairline-light pt-10">
-          <div>
-            <p className="text-[13px] text-white/50">Направления</p>
-            <ul className="mt-4 space-y-2 text-[15px]">
-              {footerLinks.services.map((l) => (
-                <li key={l.label}>
-                  <a className="link-line" href={l.href}>
-                    {l.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <p className="text-[13px] text-white/50">Клиника</p>
-            <ul className="mt-4 space-y-2 text-[15px]">
-              {footerLinks.clinic.map((l) => (
-                <li key={l.label}>
-                  <a className="link-line" href={l.href}>
-                    {l.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
           {locations.map((l) => (
             <div key={l.id} className="text-[15px]">
               <p className="display text-[32px] leading-none">{l.name}</p>
