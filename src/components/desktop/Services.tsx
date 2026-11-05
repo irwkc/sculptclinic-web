@@ -12,7 +12,7 @@ import {
 import { useLenis } from "lenis/react";
 import { ArrowUpRight } from "@phosphor-icons/react";
 import { services } from "@/lib/content";
-import { Button } from "./ui/Button";
+import { Button } from "@/components/ui/Button";
 
 const COUNT = services.length;
 
@@ -92,15 +92,11 @@ export function Services() {
     <section
       id="services"
       ref={rootRef}
-      className={
-        reduce
-          ? "bg-ink text-text-light"
-          : "h-[300vh] bg-ink text-text-light md:h-[440vh]"
-      }
+      className={reduce ? "bg-ink text-text-light" : "h-[440vh] bg-ink text-text-light"}
     >
       <h2 className="sr-only">Направления</h2>
-      <div className="sticky top-0 flex h-app flex-col md:grid md:grid-cols-12">
-        <div className="relative h-[40vh] min-h-[240px] md:col-span-7 md:h-full">
+      <div className="sticky top-0 grid h-[100dvh] grid-cols-12">
+        <div className="relative col-span-7 h-full">
           <div className="absolute inset-0 overflow-hidden">
             {services.map((service, index) => (
               <ServicePlane
@@ -137,7 +133,7 @@ export function Services() {
           ))}
         </div>
 
-        <div className="relative z-20 flex min-h-0 flex-1 flex-col justify-between bg-ink px-5 pt-5 pb-6 md:col-span-5 md:px-12 md:pt-24 md:pb-8 lg:px-16">
+        <div className="relative z-20 col-span-5 flex min-h-0 flex-col justify-between bg-ink px-12 pt-24 pb-8 lg:px-16">
           <ul>
             {services.map((service, index) => (
               <NameButton
@@ -153,7 +149,7 @@ export function Services() {
           </ul>
 
           <div>
-            <div className="relative min-h-[6.5rem] md:min-h-[19rem]">
+            <div className="relative min-h-[19rem]">
               {services.map((service, index) => (
                 <ServiceCopy
                   key={service.id}
@@ -165,7 +161,7 @@ export function Services() {
                 />
               ))}
             </div>
-            <Button variant="light" href="#contact" className="mt-6 md:mt-8">
+            <Button variant="light" href="#contact" className="mt-8">
               Записаться
             </Button>
           </div>
@@ -251,7 +247,7 @@ function DetailPlate({
     <motion.div
       aria-hidden
       style={{ y, x, opacity, zIndex: 12 + index }}
-      className="pointer-events-none absolute top-[13%] right-[-7%] hidden aspect-[4/5] w-[38%] overflow-hidden shadow-[0_28px_60px_rgba(0,0,0,0.4)] ring-1 ring-white/20 md:block"
+      className="pointer-events-none absolute top-[13%] right-[-7%] aspect-[4/5] w-[38%] overflow-hidden shadow-[0_28px_60px_rgba(0,0,0,0.4)] ring-1 ring-white/20"
     >
       <motion.img
         src={service.image}
@@ -284,7 +280,7 @@ function ServiceTitle({
     <motion.p
       aria-hidden
       style={reduce ? { opacity: index === active ? 1 : 0 } : { opacity, y }}
-      className="display pointer-events-none absolute bottom-5 left-5 z-[16] text-[42px] leading-[0.92] md:bottom-12 md:left-8 md:text-[76px]"
+      className="display pointer-events-none absolute bottom-12 left-8 z-[16] text-[76px] leading-[0.92]"
     >
       {service.title}
       <br />
@@ -316,15 +312,15 @@ function ServiceCopy({
       style={reduce ? { opacity: open ? 1 : 0 } : { opacity, y }}
       className={`absolute inset-x-0 top-0 ${open ? "z-10" : "pointer-events-none z-0"}`}
     >
-      <p className="max-w-[38ch] text-[16px] leading-relaxed text-white/75 md:text-[18px]">
+      <p className="max-w-[38ch] text-[18px] leading-relaxed text-white/75">
         {service.description}
       </p>
-      <ul className="mt-4 hidden border-t hairline-light text-[15px] md:mt-6 md:block">
+      <ul className="mt-6 border-t hairline-light text-[15px]">
         {service.items.map((item) => (
           <li key={item} className="border-b hairline-light">
             <a
               href="#contact"
-              className="group flex items-center justify-between gap-4 py-2.5 text-white/80 transition-colors hover:text-white md:py-3"
+              className="group flex items-center justify-between gap-4 py-3 text-white/80 transition-colors hover:text-white"
             >
               {item}
               <ArrowUpRight
@@ -367,7 +363,7 @@ function NameButton({
         type="button"
         onClick={onPick}
         aria-pressed={open}
-        className={`relative w-full py-2.5 text-left text-[15px] transition-colors duration-300 md:py-3 md:text-[17px] ${
+        className={`relative w-full py-3 text-left text-[17px] transition-colors duration-300 ${
           open ? "text-white" : "text-white/40 hover:text-white/75"
         }`}
       >

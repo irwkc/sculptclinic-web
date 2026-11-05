@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { ArrowUpRight, Check } from "@phosphor-icons/react";
 import { clinic, footerLinks, locations } from "@/lib/content";
-import { Logo } from "./Logo";
+import { Logo } from "@/components/Logo";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
@@ -35,15 +35,14 @@ export function Footer() {
 
   return (
     <footer id="contact" className="bg-ink text-text-light">
-      <div className="mx-auto max-w-[1600px] px-5 pb-[max(2.5rem,env(safe-area-inset-bottom))] pt-24 md:px-8 md:pt-32">
+      <div className="mx-auto max-w-[1600px] px-8 pb-10 pt-32">
         <div className="flex justify-center">
           <Logo className="scale-125" />
         </div>
 
-        {/* booking */}
-        <div className="mt-20 grid gap-12 md:mt-28 md:grid-cols-12">
-          <div className="md:col-span-5 md:col-start-2">
-            <h2 className="display text-[40px] leading-[1] md:text-[56px]">
+        <div className="mt-28 grid grid-cols-12 gap-12">
+          <div className="col-span-5 col-start-2">
+            <h2 className="display text-[56px] leading-[1]">
               Готовы изменить улыбку? <em>Запишитесь на консультацию.</em>
             </h2>
             <p className="mt-6 max-w-[38ch] text-[15px] leading-relaxed text-white/60">
@@ -51,7 +50,7 @@ export function Footer() {
             </p>
           </div>
 
-          <form onSubmit={onSubmit} noValidate className="md:col-span-5 md:col-start-7">
+          <form onSubmit={onSubmit} noValidate className="col-span-5 col-start-7">
             <div className="grid gap-6">
               <div className="grid gap-1">
                 <label htmlFor="name" className="text-[13px] text-white/50">
@@ -115,8 +114,8 @@ export function Footer() {
         </div>
 
         {/* links & locations */}
-        <div className="mt-28 grid gap-12 border-t hairline-light pt-12 md:mt-36 md:grid-cols-12">
-          <div className="md:col-span-3">
+        <div className="mt-36 grid grid-cols-12 gap-12 border-t hairline-light pt-12">
+          <div className="col-span-3">
             <p className="text-[13px] text-white/50">Направления</p>
             <ul className="mt-4 space-y-2 text-[15px]">
               {footerLinks.services.map((l) => (
@@ -128,7 +127,7 @@ export function Footer() {
               ))}
             </ul>
           </div>
-          <div className="md:col-span-2">
+          <div className="col-span-2">
             <p className="text-[13px] text-white/50">Клиника</p>
             <ul className="mt-4 space-y-2 text-[15px]">
               {footerLinks.clinic.map((l) => (
@@ -140,7 +139,7 @@ export function Footer() {
               ))}
             </ul>
           </div>
-          <div className="grid gap-10 sm:grid-cols-2 md:col-span-7">
+          <div className="col-span-7 grid grid-cols-2 gap-10">
             {locations.map((l) => (
               <div key={l.id} className="text-[15px]">
                 <p className="display text-[32px] leading-none">{l.name}</p>
@@ -161,7 +160,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-20 flex flex-col gap-4 border-t hairline-light pt-6 text-[13px] text-white/50 md:flex-row md:items-center md:justify-between">
+        <div className="mt-20 flex items-center justify-between gap-4 border-t hairline-light pt-6 text-[13px] text-white/50">
           <p>
             © 2026 {clinic.nameRu}. Лицензия № {clinic.license}. Имеются противопоказания.
             Необходима консультация специалиста.

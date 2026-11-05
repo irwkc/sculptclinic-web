@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { List, X, Plus, ArrowUpRight } from "@phosphor-icons/react";
-import { Logo } from "./Logo";
+import { List, X, ArrowUpRight } from "@phosphor-icons/react";
+import { Logo } from "@/components/Logo";
 import { clinic, nav, locations } from "@/lib/content";
 
 export function Header() {
@@ -23,56 +23,28 @@ export function Header() {
 
   return (
     <>
-      {/* mix-blend-difference: header stays legible over the light/dark split without JS */}
       <header className="fixed inset-x-0 top-0 z-50 pt-[env(safe-area-inset-top)] text-white mix-blend-difference pointer-events-none">
-        <div className="mx-auto flex h-[72px] max-w-[1600px] items-center justify-between px-5 md:px-8">
-          <div className="pointer-events-auto flex items-center gap-10">
+        <div className="mx-auto flex h-[64px] max-w-[1600px] items-center justify-between px-5">
+          <div className="pointer-events-auto">
             <Logo />
-            <button
-              type="button"
-              onClick={() => setOpen((v) => !v)}
-              aria-expanded={open}
-              aria-controls="site-menu"
-              className="hidden items-center gap-2 text-[15px] font-medium md:inline-flex"
-            >
-              Меню
-              {open ? <X size={16} weight="bold" /> : <List size={16} weight="bold" />}
-            </button>
           </div>
-
-          <div className="pointer-events-auto flex items-center gap-6">
-            <a
-              href={clinic.phoneHref}
-              className="link-line hidden text-[15px] font-medium lg:inline-block"
-            >
-              {clinic.phone}
-            </a>
-            <a
-              href="#contact"
-              className="btn hidden h-12 bg-white px-6 text-[15px] text-black md:inline-flex"
-            >
-              <span>Записаться</span>
-              <span className="btn-icon bg-black/8">
-                <Plus size={13} weight="bold" />
-              </span>
-            </a>
-            <button
-              type="button"
-              onClick={() => setOpen((v) => !v)}
-              aria-label={open ? "Закрыть меню" : "Открыть меню"}
-              aria-expanded={open}
-              className="grid size-11 place-items-center md:hidden"
-            >
-              {open ? <X size={20} weight="bold" /> : <List size={20} weight="bold" />}
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-label={open ? "Закрыть меню" : "Открыть меню"}
+            aria-expanded={open}
+            aria-controls="site-menu-phone"
+            className="pointer-events-auto grid size-11 place-items-center"
+          >
+            {open ? <X size={20} weight="bold" /> : <List size={20} weight="bold" />}
+          </button>
         </div>
       </header>
 
       <AnimatePresence>
         {open && (
           <motion.div
-            id="site-menu"
+            id="site-menu-phone"
             role="dialog"
             aria-modal="true"
             initial={reduce ? false : { clipPath: "inset(0 0 100% 0)" }}
@@ -81,7 +53,7 @@ export function Header() {
             transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
             className="fixed inset-0 z-40 overflow-y-auto bg-ink text-text-light"
           >
-            <div className="mx-auto flex min-h-full max-w-[1600px] flex-col justify-between px-5 pb-[max(2.5rem,env(safe-area-inset-bottom))] pt-[calc(env(safe-area-inset-top)+5.5rem)] md:px-8 md:pt-36">
+            <div className="mx-auto flex min-h-full max-w-[1600px] flex-col justify-between px-5 pb-[max(2.5rem,env(safe-area-inset-bottom))] pt-[calc(env(safe-area-inset-top)+5rem)]">
               <nav>
                 <ul className="flex flex-col">
                   {nav.map((item, i) => (
@@ -99,15 +71,10 @@ export function Header() {
                       <a
                         href={item.href}
                         onClick={() => setOpen(false)}
-                        className="group flex items-center justify-between py-4 md:py-5"
+                        className="flex items-center justify-between py-4"
                       >
-                        <span className="display text-[13vw] leading-[1] sm:text-[64px] md:text-[80px]">
-                          {item.label}
-                        </span>
-                        <ArrowUpRight
-                          size={28}
-                          className="opacity-0 transition-all duration-500 group-hover:translate-x-1 group-hover:opacity-100"
-                        />
+                        <span className="display text-[13vw] leading-[1]">{item.label}</span>
+                        <ArrowUpRight size={22} className="opacity-40" />
                       </a>
                     </motion.li>
                   ))}
@@ -117,8 +84,8 @@ export function Header() {
               <motion.div
                 initial={reduce ? false : { opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.6, duration: 0.8 }}
-                className="mt-16 grid gap-10 text-[15px] md:grid-cols-3"
+                transition={{ delay: 0.55, duration: 0.8 }}
+                className="mt-12 grid gap-8 text-[15px]"
               >
                 {locations.map((l) => (
                   <div key={l.id}>

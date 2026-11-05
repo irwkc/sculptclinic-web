@@ -1,7 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Onest, Playfair_Display } from "next/font/google";
-import { PageTransition } from "@/components/PageTransition";
-import { SmoothScroll } from "@/components/SmoothScroll";
 import "./globals.css";
 
 const onest = Onest({
@@ -33,7 +31,6 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  // No solid themeColor: Safari keeps its frosted/translucent chrome over the page.
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -42,12 +39,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="ru"
       className={`${onest.variable} ${playfair.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col overflow-x-clip">
-        <SmoothScroll>
-          {children}
-          <PageTransition />
-        </SmoothScroll>
-      </body>
+      <body className="min-h-full flex flex-col overflow-x-clip">{children}</body>
     </html>
   );
 }
